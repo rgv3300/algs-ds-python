@@ -1,3 +1,4 @@
+  
 class node:
     def __init__(self,data=None):
         self.data = data
@@ -52,39 +53,30 @@ def deleteNode(rootNode,item):
     temp = lookupTree(rootNode,item)
     if rootNode == None:
         return
-    if temp.left is None and temp.right is None:
-        temp.parent.left = None
-        temp.parent.right = None
     if temp.data < temp.parent.data:
-        if temp.left is not None and temp.right is None:
+        if temp.left is None and temp.right is None:
+            temp.parent.left = None
+        elif temp.left is not None and temp.right is None:
             temp.parent.left = temp.left
         elif temp.left is None and temp.right is not None:
             temp.parent.left = temp.right
         else:
             inorderSucc =  inOrder(temp)
-            temp1 = inorderSucc
-            temp.parent.left = temp1
-            if temp.right.data == inorderSucc.data:
-                temp1.right = None
-            else:
-                temp1.right = temp.right
-            temp1.left = temp.left
+            temp1 = inorderSucc.data
             deleteNode(rootNode,inorderSucc.data)
+            temp.data = temp1
     if temp.data > temp.parent.data:
-        if temp.left is not None and temp.right is None:
+        if temp.left is None and temp.right is None:
+            temp.parent.right = None
+        elif temp.left is not None and temp.right is None:
             temp.parent.right = temp.left
         elif temp.left is None and temp.right is not None:
             temp.parent.right = temp.right
         else:
             inorderSucc = inOrder(temp)
-            temp1 = inorderSucc
-            temp.parent.right = temp1
-            if temp.right.data == inorderSucc.data:
-                temp1.right = None
-            else:
-                temp1.right = temp.right
-            temp1.left = temp.left
+            temp1 = inorderSucc.data
             deleteNode(rootNode,inorderSucc.data)
+            temp.data = temp1
             
 def inOrder(root):
     if root.right != None:
@@ -127,3 +119,6 @@ insertNode(a,50)
 
 deleteNode(a,36)
 
+print(a.right.data)
+print(a.right.right.data)
+print(a.right.left.data)
