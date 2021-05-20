@@ -64,9 +64,12 @@ def deleteNode(rootNode,item):
             inorderSucc =  inOrder(temp)
             temp1 = inorderSucc
             temp.parent.left = temp1
-            temp1.right = temp.right
+            if temp.right.data == inorderSucc.data:
+                temp1.right = None
+            else:
+                temp1.right = temp.right
             temp1.left = temp.left
-            del inorderSucc
+            deleteNode(rootNode,inorderSucc.data)
     if temp.data > temp.parent.data:
         if temp.left is not None and temp.right is None:
             temp.parent.right = temp.left
@@ -76,9 +79,13 @@ def deleteNode(rootNode,item):
             inorderSucc = inOrder(temp)
             temp1 = inorderSucc
             temp.parent.right = temp1
-            temp1.right = temp.right
+            if temp.right.data == inorderSucc.data:
+                temp1.right = None
+            else:
+                temp1.right = temp.right
             temp1.left = temp.left
-            del inorderSucc
+            deleteNode(rootNode,inorderSucc.data)
+            
 def inOrder(root):
     if root.right != None:
         root = root.right
@@ -98,17 +105,25 @@ def inOrder(root):
     
 
 #must define rootNode first
-a = node(10)
+a = node(25)
 #automatically sort nodes after rootNode is inserted
-insertNode(a,6)
-b = insertNode(a,15)
+insertNode(a,20)
+insertNode(a,36)
+insertNode(a,10)
+insertNode(a,22)
+insertNode(a,30)
+insertNode(a,40)
 insertNode(a,5)
+insertNode(a,12)
+insertNode(a,28)
+insertNode(a,38)
+insertNode(a,48)
+insertNode(a,1)
 insertNode(a,8)
-insertNode(a,3)
-insertNode(a,13)
-insertNode(a,16)
-insertNode(a,14)
+insertNode(a,15)
+insertNode(a,45)
+insertNode(a,50)
 
 
-deleteNode(a,15)
+deleteNode(a,36)
 
