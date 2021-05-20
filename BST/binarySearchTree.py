@@ -38,7 +38,7 @@ def searchMinimum(rootNode):
         return
     while min.left != None:
         min = min.left
-    return min.data
+    return min
 
 def searchMaximum(rootNode):
     max = rootNode
@@ -46,36 +46,62 @@ def searchMaximum(rootNode):
         return
     while max.right != None:
         max = max.right
-    return max.data
+    return max
 
 def deleteNode(rootNode,item):
-	temp = lookupTree(rootNode,item)
-	#if rootnode is null return
-	if rootNode == None:
-		return
-	#if the deleted node has no children make the parent pointer to non
-	if temp.left is None and temp.right is None:
-		temp.parent.left = None
-		temp.parent.right = None
-	#if the deleted node has one children make the parent pointer point to the children node
-	#first we determine if temp is on left subtree or right subtree of the parent
-	if temp.data < temp.parent.data: #left subtree
-		if temp.left is not None and temp.right is None:
-			temp.parent.left = temp.left
-		if temp.left is None and temp.right is not None:
-			temp.parent.left = temp.right
-	if temp.data > temp.parent.data: #right subtree
-		if temp.left is not None and temp.right is None:
-			temp.parent.right = temp.left
-		if temp.left is None and temp.right is not None:
-			temp.parent.right = temp.right
-	#if the deleted node has two children relabel the parent pointer with the first left node of the right node of the deleted node 
+    temp = lookupTree(rootNode,item)
+    if rootNode == None:
+        return
+    if temp.left is None and temp.right is None:
+        temp.parent.left = None
+        temp.parent.right = None
+    if temp.data < temp.parent.data:
+        if temp.left is not None and temp.right is None:
+            temp.parent.left = temp.left
+        elif temp.left is None and temp.right is not None:
+            temp.parent.left = temp.right
+        else:
+            inorderSucc =  inOrder(temp)
+            temp1 = inorderSucc
+            temp.parent.left = temp1
+            temp1.right = temp.right
+            temp1.left = temp.left
+            del inorderSucc
+    if temp.data > temp.parent.data:
+        if temp.left is not None and temp.right is None:
+            temp.parent.right = temp.left
+        elif temp.left is None and temp.right is not None:
+            temp.parent.right = temp.right
+        else:
+            inorderSucc = inOrder(temp)
+            temp1 = inorderSucc
+            temp.parent.right = temp1
+            temp1.right = temp.right
+            temp1.left = temp.left
+            del inorderSucc
+def inOrder(root):
+    if root.right != None:
+        root = root.right
+        while root.left:
+            root = root.left
+        return root
+    else:
+        parent = root.parent
+        while parent != None:
+            if parent.left == root:
+                break
+            root = parent
+            parent = root.parent
+        return parent
+
+
+    
 
 #must define rootNode first
 a = node(10)
 #automatically sort nodes after rootNode is inserted
 insertNode(a,6)
-insertNode(a,15)
+b = insertNode(a,15)
 insertNode(a,5)
 insertNode(a,8)
 insertNode(a,3)
@@ -84,6 +110,5 @@ insertNode(a,16)
 insertNode(a,14)
 
 
-deleteNode(a,10)
+deleteNode(a,15)
 
-print(a.right.left.data)
