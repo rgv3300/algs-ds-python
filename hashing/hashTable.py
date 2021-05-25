@@ -1,11 +1,10 @@
-
-bal variables to keep track of the hash table
+#global variables to keep track of the hash table
 count = 0
 size = 1000
 
 def hash_table(size):
     return [None] * size
-
+    
 def hash_item(key, value):
     return (key,value)
 
@@ -25,7 +24,38 @@ def insert_hash(table,key,value):
     else:
         collision_handler(table, index, item)
     count = count + 1
-
+    
 def print_hash(table,key):
     index = hash_func(key)
-"hashTable.py" 48L, 1065C
+    while table[index][0] != key:      #in case there is a collision:
+        index = index + 1
+    print(table[index])
+    
+def delete_hash(table,key):
+    index = hash_func(key)
+    while table[index][0] != key:
+        index = index + 1
+    table.pop(index)
+    
+    
+def collision_handler(table,index,item):         #handling collisions using open addressing
+        while table[index] != None:
+            index = index + 1
+        table[index] = item
+        
+
+
+
+a = hash_table(size)
+
+b = hash_func('1')
+
+insert_hash(a, '1','john')
+
+print_hash(a,'1')
+
+delete_hash(a,'1')
+
+insert_hash(a,'1','edward')
+
+print_hash(a,'1')
