@@ -42,8 +42,8 @@ hash_item* create_hash_item(char* key, char* value) {
 }
 
 linked_list** create_overflow_bucket(hash_table* table) {
-	linked_list** bucket = (linked_list**)calloc(table->size,sizeof(linked_list*));
-	for(int i = 0; i < table->size; i++)
+	linked_list** bucket = (linked_list**)calloc(table->size,sizeof(linked_list*)); //create overflow linked list for every hashtable slot
+	for(int i = 0; i < table->size; i++)  
 		bucket[i] = NULL;
 	return bucket;
 }
@@ -55,7 +55,7 @@ hash_table* create_hash_table(int size) {
 	table->item = (hash_item**)calloc(table->size, sizeof(hash_item*));
 	for(int i = 0; i < table->size; i++) 
 		table->item[i] = NULL;
-		table->overflow_buckets = create_overflow_bucket(table);	
+		table->overflow_buckets = create_overflow_bucket(table);	//comeback to check if overflow bucket is made for every item 10000 times
 	return table;
 }
 
@@ -95,21 +95,6 @@ void free_table(hash_table* table) {
 	free(table);
 }
 
-void collision_handler(hash_table* table, unsigned long index, hash_item* item) {
-	linked_list* head = table->overflow_buckets[index];
-
-	if(head==NULL) {
-		head = list_allocate();
-		head->item = item;
-		table->overflow_buckets[index] = head;
-		return;
-	}
-	else {
-		table->overflow_buckets[index] = list_insert(head, item);
-		return;
-	}
-}
-
 linked_list* list_allocate() {
 	linked_list* list = (linked_list*)malloc(sizeof(linked_list));
 	return list;
@@ -140,6 +125,21 @@ linked_list* list_insert(linked_list* list, hash_item* item) {
 	temp->next = node;
 
 	return list;
+}
+
+void collision_handler(hash_table* table, unsigned long index, hash_item* item) {
+	linked_list* head = table->overflow_buckets[index];
+
+	if(head==NULL) {
+		head = list_allocate();
+		head->item = item;
+		table->overflow_buckets[index] = head;
+		return;
+	}
+	else {
+		table->overflow_buckets[index] = list_insert(head, item);
+		return;
+	}
 }
 
 void hash_insert(hash_table* table, char* key, char* value) {
