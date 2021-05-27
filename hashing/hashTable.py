@@ -35,7 +35,7 @@ def delete_hash(table,key):
     index = hash_func(key)
     while table[index][0] != key:
         index = index + 1
-    table.pop(index)
+    table[index] = None
     
     
 def collision_handler(table,index,item):         #handling collisions using open addressing
@@ -48,14 +48,6 @@ def collision_handler(table,index,item):         #handling collisions using open
 
 a = hash_table(size)
 
-b = hash_func('1')
-
-insert_hash(a, '1','john')
-
-print_hash(a,'1')
-
-delete_hash(a,'1')
-
-insert_hash(a,'1','edward')
-
-print_hash(a,'1')
+insert_hash(a,1000,'john')
+insert_hash(a,1000,'edward')
+print_hash(a,1000)
