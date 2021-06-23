@@ -48,6 +48,7 @@ def collision_handler(table,index,item):         #handling collisions using open
 
 a = hash_table(size)
 
-insert_hash(a,1000,'john')
-insert_hash(a,1000,'edward')
-print_hash(a,1000)
+insert_hash(a,1,'john')
+insert_hash(a,2,'edward')
+delete_hash(a,1)
+print_hash(a,2)
